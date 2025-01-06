@@ -15,40 +15,27 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  overflow: hidden;
-  animation: gradientAnimation 6s ease infinite;
+  overflow: auto; /* Allow page to scroll */
 }
 
-/* Gradient Animation */
-@keyframes gradientAnimation {
-  0% { background: linear-gradient(to right, #0f2027, #203a43, #2c5364); }
-  50% { background: linear-gradient(to right, #2c5364, #203a43, #0f2027); }
-  100% { background: linear-gradient(to right, #0f2027, #203a43, #2c5364); }
-}
-
+/* Typography */
 h1, h2 {
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 0 15px rgba(0, 255, 255, 0.7), 0 0 30px rgba(0, 255, 255, 0.7);
-  animation: glow 1.5s ease-in-out infinite alternate;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   color: #00c6ff;
   margin: 20px 0;
 }
 
 h2 {
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: #00ffba;
   margin-top: 20px;
-}
-
-@keyframes glow {
-  0% { text-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.5); }
-  100% { text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 50px rgba(0, 255, 255, 1); }
 }
 
 /* Container */
@@ -58,29 +45,36 @@ h2 {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
   padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(0, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  transition: box-shadow 0.3s ease;
+  max-height: 80vh; /* Limit container height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .container:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 40px rgba(0, 255, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.5);
 }
 
 /* Input and Button Styles */
 input,
 select,
 button {
-  font-size: 1.2rem;
-  padding: 15px;
+  font-size: 1.1rem;
+  padding: 14px;
   margin: 10px 0;
   border: none;
   border-radius: 8px;
   outline: none;
   transition: all 0.3s ease;
-  background: rgba(0, 255, 255, 0.1);
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 320px;
+  background-color: rgba(0, 255, 255, 0.1);
   color: #fff;
   border: 2px solid rgba(0, 255, 255, 0.5);
 }
@@ -95,20 +89,19 @@ button {
   color: #fff;
   cursor: pointer;
   padding: 12px 24px;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 button:hover {
   background-color: #00a3e0;
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 }
 
 button:active {
   transform: translateY(0);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
 }
 
 /* User List */
@@ -116,12 +109,14 @@ button:active {
   list-style: none;
   padding: 0;
   margin-top: 30px;
+  max-height: 300px; /* Limit list height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 #userListUl li {
   margin: 15px 0;
   padding: 12px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   border: 2px solid #00ffba;
   border-radius: 8px;
   color: #fff;
@@ -130,12 +125,12 @@ button:active {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
-  animation: slideIn 0.5s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+#userListUl li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 255, 255, 0.5);
 }
 
 #userListUl li span {
@@ -146,17 +141,16 @@ button:active {
 .remove-btn {
   background-color: #ff4d4d;
   color: #fff;
-  padding: 5px 15px;
+  padding: 5px 12px;
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
 }
 
 .remove-btn:hover {
   background-color: #ff1a1a;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .remove-btn:active {
@@ -168,18 +162,6 @@ button:active {
 .exp-section,
 .manual-exp {
   margin-bottom: 20px;
-}
-
-/* Input Field Group */
-.exp-inputs,
-.manual-exp {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-input[type="number"] {
-  width: calc(50% - 10px);
 }
 
 /* Mobile Responsive */
@@ -211,22 +193,4 @@ input[type="number"] {
   .exp-inputs {
     flex-direction: column;
   }
-}
-
-/* Adding futuristic visual effects to inputs and buttons */
-input, select, button {
-  background: linear-gradient(45deg, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
-  border: 1px solid rgba(0, 255, 255, 0.6);
-  color: #00c6ff;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-}
-
-/* Adding background animation */
-@keyframes backgroundAnimation {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
-body {
-  animation: backgroundAnimation 15s ease-in-out infinite;
 }
