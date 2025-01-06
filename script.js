@@ -32,8 +32,10 @@ confirmBtn.addEventListener("click", () => {
   const minutes = parseInt(minutesInput.value) || 0;
 
   if (username) {
-    let exp = hours * 2 + Math.floor(minutes / 30); // Calculate EXP
-    if (hours >= 10) exp += 5; // Bonus for 10+ hours
+    let exp = hours * 2 + Math.floor(minutes / 30); // Calculate basic EXP based on hours and minutes
+    const bonusExp = getBonusExp(hours); // Get bonus EXP based on hours
+    exp += bonusExp; // Add the bonus EXP to the total
+
     users[username].exp += exp;
     saveToLocalStorage();
     updateUI();
@@ -68,6 +70,31 @@ function removeUsername(username) {
   }
 }
 
+// Get Rank Based on EXP
+function getRank(exp) {
+  if (exp >= 3100) return "S";
+  if (exp >= 2100) return "A";
+  if (exp >= 1300) return "B";
+  if (exp >= 700) return "C";
+  if (exp >= 300) return "D";
+  if (exp >= 100) return "E";
+  return "";
+}
+
+// Get Bonus EXP based on the number of hours
+function getBonusExp(hours) {
+  let bonusExp = 0;
+
+  // Calculate the bonus EXP based on the hours
+  if (hours >= 10) bonusExp += 5; // 10+ hours = +5 EXP
+  if (hours >= 20) bonusExp += 5; // 20+ hours = +10 EXP (cumulative)
+  if (hours >= 30) bonusExp += 5; // 30+ hours = +15 EXP (cumulative)
+  if (hours >= 40) bonusExp += 5; // 40+ hours = +20 EXP (cumulative)
+  // Add more bonus levels if needed
+
+  return bonusExp;
+}
+
 // Update User List and Dropdown
 function updateUI() {
   // Update Dropdown
@@ -92,17 +119,6 @@ function updateUI() {
     `;
     userListUl.appendChild(li);
   }
-}
-
-// Get Rank Based on EXP
-function getRank(exp) {
-  if (exp >= 3100) return "S";
-  if (exp >= 2100) return "A";
-  if (exp >= 1300) return "B";
-  if (exp >= 700) return "C";
-  if (exp >= 300) return "D";
-  if (exp >= 100) return "E";
-  return "";
 }
 
 // Save to localStorage
