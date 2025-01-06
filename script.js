@@ -53,7 +53,23 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const totalExp = hours * 60 + minutes;
+    let totalExp = 0;
+
+    // Calculate EXP based on hours and minutes
+    if (hours > 0) {
+      totalExp += hours * 2; // 1 hour = 2 EXP
+      if (hours >= 10) {
+        totalExp += Math.floor(hours / 10) * 5; // Extra 5 EXP for every 10 hours
+      }
+    }
+
+    if (minutes >= 30 && minutes < 50) {
+      totalExp += 1; // 30 minutes = 1 EXP
+    } else if (minutes >= 50) {
+      totalExp += 2; // 50+ minutes = 2 EXP
+    }
+
+    // Update EXP for the selected username
     const listItems = document.querySelectorAll("#userListUl li");
     listItems.forEach((item) => {
       const usernameExpSpan = item.querySelector(".username-exp");
