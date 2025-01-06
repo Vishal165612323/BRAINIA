@@ -1,4 +1,3 @@
-// Add event listeners after the DOM content is loaded
 document.addEventListener("DOMContentLoaded", function () {
   const usernameInput = document.getElementById("usernameInput");
   const addUsernameBtn = document.getElementById("addUsernameBtn");
@@ -11,19 +10,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const addManualExpBtn = document.getElementById("addManualExpBtn");
   const removeSelectedBtn = document.getElementById("removeSelectedBtn");
 
-  // Function to add a new username
-  addUsernameBtn.addEventListener("click", function () {
-    const username = usernameInput.value.trim();
-    if (username === "") {
-      alert("Username cannot be empty.");
-      return;
+  // Load user data from local storage
+  function loadUserData() {
+    const savedUserList = JSON.parse(localStorage.getItem("userList"));
+    if (savedUserList) {
+      savedUserList.forEach(user => {
+        addUserToList(user.username, user.exp);
+      });
     }
+  }
 
+  // Add a new username to the list and dropdown
+  function addUserToList(username, exp = 0) {
     // Add to the user list
     const listItem = document.createElement("li");
     listItem.innerHTML = `
-      <input type="checkbox" class="user-checkbox" aria-label="Select User">
-      <span class="username-exp">${username} (0 EXP)</span>
+      <input type="checkbox" class="user-checkbox">
+      <span class="username-exp">${username} (${exp} EXP)</span>
     `;
     userListUl.appendChild(listItem);
 
@@ -32,6 +35,33 @@ document.addEventListener("DOMContentLoaded", function () {
     option.value = username;
     option.textContent = username;
     usernameSelect.appendChild(option);
+  }
+
+  // Save user data to localStorage
+  function saveUserData() {
+    const userList = [];
+    const listItems = document.querySelectorAll("#userListUl li");
+    listItems.forEach((item) => {
+      const usernameExpSpan = item.querySelector(".username-exp");
+      const username = usernameExpSpan.textContent.split(" (")[0];
+      const exp = parseInt(usernameExpSpan.textContent.match(/\((\d+) EXP\)/)[1]);
+      userList.push({ username, exp });
+    });
+    localStorage.setItem("userList", JSON.stringify(userList));
+  }
+
+  // Function to add a new username
+  addUsernameBtn.addEventListener("click", function () {
+    const username = usernameInput.value.trim();
+    if (username === "") {
+      alert("Username cannot be empty.");
+      return;
+    }
+
+    addUserToList(username);
+
+    // Save the user data after adding new username
+    saveUserData();
 
     // Clear the input
     usernameInput.value = "";
@@ -85,6 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    // Save the updated user data
+    saveUserData();
+
     // Clear inputs
     hoursInput.value = "";
     minutesInput.value = "";
@@ -120,6 +153,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    // Save the updated user data
+    saveUserData();
+
     // Clear input
     manualExpInput.value = "";
   });
@@ -145,5 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
         listItem.remove();
       }
     });
+
+    // Save the updated user data
+    saveUserData();
   });
+
+  // Load user data from local storage on page load
+  loadUserData();
 });
