@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#00c6ff"> <!-- Android Toolbar Color -->
+  <meta name="theme-color" content="#00c6ff">
   <title>EXP Tracker</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -39,8 +39,17 @@
     <section>
       <h2>User List</h2>
       <ul id="userListUl" aria-live="polite">
-        <!-- User List will be updated dynamically here -->
+        <!-- Example User List Items -->
+        <li>
+          <input type="checkbox" class="user-checkbox" aria-label="Select User">
+          <span class="username-exp">John Doe (1200 EXP)</span>
+        </li>
+        <li>
+          <input type="checkbox" class="user-checkbox" aria-label="Select User">
+          <span class="username-exp">Jane Doe (950 EXP)</span>
+        </li>
       </ul>
+      <button id="removeSelectedBtn" aria-label="Remove Selected Users">Remove Selected</button>
     </section>
   </div>
 
