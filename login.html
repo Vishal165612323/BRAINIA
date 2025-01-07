@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #login-btn {
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #login-btn:hover {
+      background-color: #357AE8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Login to Access EXP Tracker</h1>
+  <button id="login-btn">Sign in with Google</button>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiQk2RGyz2BdPZLYTzXoPNKj4rMQhxcfw",
+      authDomain: "auth-32bee.firebaseapp.com",
+      projectId: "auth-32bee",
+      storageBucket: "auth-32bee.firebasestorage.app",
+      messagingSenderId: "832814426209",
+      appId: "1:832814426209:web:78117c4dc198fe42416220"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Allowed Emails
+    const allowedEmails = ["07.comer@gmail.com", "vishal16980@gmail.com"];
+
+    // Select login button
+    const loginButton = document.getElementById('login-btn');
+
+    loginButton.addEventListener('click', () => {
+      console.log("Login button clicked"); // Debugging log
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const email = result.user.email;
+
+          if (allowedEmails.includes(email)) {
+            alert('Login successful!');
+            localStorage.setItem('authenticatedUser', email);
+            window.location.href = './index.html';
+          } else {
+            alert('Access denied. This email is not authorized.');
+            auth.signOut();
+          }
+        })
+        .catch((error) => {
+          console.error('Login Error:', error);
+          alert('Login failed. Please try again.');
+        });
+    });
+  </script>
+</body>
+</html>
